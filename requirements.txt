@@ -1,6 +1,6 @@
 # AI-based early skin disease prediction - chatbot
 flask>=2.0
-tensorflow>=2.10
+tensorflow-cpu>=2.10
 scikit-learn>=1.0
 numpy>=1.21
 Pillow>=9.0
@@ -9,4 +9,5 @@ h5py>=3.0
 # Optional: for downloading more datasets from Kaggle
 # pip install kaggle  then set up kaggle.json
 # kaggle>=1.5
+
 
