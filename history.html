@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Your analysis history — View past skin disease screenings from the AI Based Early Human Skin Disease Prediction Chatbot.">
+    <title>Analysis History — AI Skin Disease Prediction Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="nav-icon">🔬</span>
+            <span class="nav-title">SkinAI</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/about" class="nav-link">About</a>
+            <a href="/history" class="nav-link active">History</a>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <div class="chat-wrapper">
+
+            <div class="chat-header">
+                <div class="header-icon">📋</div>
+                <div>
+                    <h2>Screening History</h2>
+                    <p>Verified clinical records for this session</p>
+                </div>
+                <div class="header-status">
+                    <span class="status-dot"></span>
+                    Live Data
+                </div>
+            </div>
+
+            <div class="chat-body">
+
+                {% if analyses %}
+                <div class="bot-msg">
+                    📋 You have <strong>{{ analyses|length }}</strong> screening{{ 's' if analyses|length > 1 else '' }}
+                    in this session. Here are your recent results:
+                </div>
+
+                <div class="history-list">
+                    {% for item in analyses|reverse %}
+                    <div class="history-card">
+                        <div class="history-card-left">
+                            {% if item.image_url %}
+                            <img src="{{ item.image_url }}" alt="Screened image" class="history-thumb">
+                            {% else %}
+                            <div class="history-thumb-placeholder">📷</div>
+                            {% endif %}
+                        </div>
+                        <div class="history-card-right">
+                            <div class="history-disease">{{ item.disease }}</div>
+                            <div class="history-meta">
+                                <span class="history-confidence">Confidence: {{ item.confidence }}%</span>
+                                <span class="history-risk">
+                                    {% if item.risk_level == 'High Risk' %}
+                                    <span class="risk-badge risk-high" style="font-size:0.72rem;padding:3px 10px;">🔴
+                                        High</span>
+                                    {% elif item.risk_level == 'Medium Risk' %}
+                                    <span class="risk-badge risk-medium" style="font-size:0.72rem;padding:3px 10px;">🟡
+                                        Medium</span>
+                                    {% else %}
+                                    <span class="risk-badge risk-low" style="font-size:0.72rem;padding:3px 10px;">🟢
+                                        Low</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% else %}
+                <div class="bot-msg">
+                    📭 <strong>No screenings yet.</strong> Upload a skin image on the home page to get started. Your
+                    analysis history will appear here.
+                </div>
+
+                <div class="empty-state">
+                    <div class="empty-icon">🔍</div>
+                    <p>Start analyzing skin images to build your history</p>
+                </div>
+                {% endif %}
+
+                <a href="/" class="btn">🔄 Start New Analysis</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 AI Based Early Human Skin Disease Prediction Using Chatbot</p>
+        <p class="footer-sub">Built with TensorFlow &bull; EfficientNetB0 &bull; Flask</p>
+    </footer>
+
+</body>
+
+</html>

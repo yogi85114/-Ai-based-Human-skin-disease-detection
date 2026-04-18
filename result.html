@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AI Diagnosis Report — Skin disease prediction results with confidence scores, disease info, and risk assessment.">
+    <title>AI Diagnosis Report — {{ disease }} | SkinAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="nav-icon"></span>
+            <span class="nav-title">SkinAI</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/about" class="nav-link">About</a>
+            <a href="/history" class="nav-link">History</a>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <div class="chat-wrapper">
+
+            <div class="chat-header">
+                <div class="header-icon">🛡️</div>
+                <div>
+                    <h2>AI Diagnosis Report</h2>
+                    <p>Secured &amp; Verified Screening Result</p>
+                </div>
+                <div class="header-status">
+                    <span class="status-dot"></span>
+                    Verified
+                </div>
+            </div>
+
+            <div class="chat-body">
+
+                {% if error %}
+                <div class="error-msg">
+                    ❌ <strong>Error:</strong> {{ error }}
+                </div>
+                {% else %}
+                <div class="bot-msg">
+                    ✅ <strong>Analysis Complete.</strong> Here are your AI screening results. Please review the
+                    predicted condition, confidence level, disease information, and risk assessment below.
+                </div>
+                {% endif %}
+
+                {% if image_url %}
+                <div class="result-img-container">
+                    <div class="scan-line"></div>
+                    <img src="{{ image_url }}" alt="Uploaded skin image" class="result-img">
+                </div>
+                {% endif %}
+
+                <!-- Prediction Summary -->
+                <div class="result-box">
+                    <div class="result-row">
+                        <span class="result-label">Predicted Condition</span>
+                        <span class="result-value disease">{{ disease_info.emoji }} {{ disease }}</span>
+                    </div>
+
+                    <div class="result-row">
+                        <span class="result-label">Confidence</span>
+                        <span class="result-value">{{ confidence }}%</span>
+                    </div>
+
+                    <div class="confidence-meter">
+                        <div class="confidence-bar-bg">
+                            <div class="confidence-bar-fill" id="confidenceBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="result-row">
+                        <span class="result-label">Severity</span>
+                        <span class="result-value">{{ disease_info.severity }}</span>
+                    </div>
+
+                    <div class="result-row">
+                        <span class="result-label">Risk Level</span>
+                        <span class="result-value">
+                            {% if risk_level == 'High Risk' %}
+                            <span class="risk-badge risk-high">🔴 High Risk</span>
+                            {% elif risk_level == 'Medium Risk' %}
+                            <span class="risk-badge risk-medium">🟡 Medium Risk</span>
+                            {% else %}
+                            <span class="risk-badge risk-low">🟢 Low Risk</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Disease Information Card -->
+                {% if disease_info and disease != 'Error' %}
+                <div class="disease-info-card">
+                    <div class="disease-info-header">
+                        <span class="disease-info-emoji">{{ disease_info.emoji }}</span>
+                        <div>
+                            <h3>{{ disease_info.full_name }}</h3>
+                            <span class="severity-tag">{{ disease_info.severity }}</span>
+                        </div>
+                    </div>
+
+                    <div class="disease-info-section">
+                        <h4>📖 About This Condition</h4>
+                        <p>{{ disease_info.description }}</p>
+                    </div>
+
+                    {% if disease_info.symptoms %}
+                    <div class="disease-info-section">
+                        <h4>🩺 Common Symptoms</h4>
+                        <ul class="symptom-list">
+                            {% for symptom in disease_info.symptoms %}
+                            <li>{{ symptom }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if disease_info.causes %}
+                    <div class="disease-info-section">
+                        <h4>🔍 Possible Causes</h4>
+                        <ul class="cause-list">
+                            {% for cause in disease_info.causes %}
+                            <li>{{ cause }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <div class="disease-info-section">
+                        <h4>💊 Treatment Options</h4>
+                        <ul class="treatment-list">
+                            {% for treatment in disease_info.treatment %}
+                            <li>{{ treatment }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="disease-info-section doctor-section">
+                        <h4>👨‍⚕️ When to See a Doctor</h4>
+                        <p>{{ disease_info.see_doctor }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if prob_labels and prob_values %}
+                <div class="chart-container">
+                    <div class="chart-title">📊 Class Probability Distribution</div>
+                    <canvas id="probChart"></canvas>
+                </div>
+                {% endif %}
+
+                <div class="warning">
+                    ⚠️ <strong>Medical Disclaimer:</strong> This AI screening tool is for educational purposes only and
+                    does not provide medical diagnoses. Always consult a certified dermatologist or healthcare provider
+                    for accurate diagnosis and treatment.
+                </div>
+
+                <div class="result-actions">
+                    <a href="/" class="btn">🔄 Start New Analysis</a>
+                    <a href="/history" class="btn btn-secondary">📋 View History</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 AI Based Early Human Skin Disease Prediction Using Chatbot</p>
+        <p class="footer-sub">Built with TensorFlow &bull; EfficientNetB0 &bull; Flask</p>
+    </footer>
+
+    <script>
+        // Animate confidence bar
+        const bar = document.getElementById('confidenceBar');
+        if (bar) {
+            const conf = parseFloat('{{ confidence }}') || 0;
+            setTimeout(function () {
+                bar.style.width = conf + '%';
+                if (conf >= 75) {
+                    bar.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
+                } else if (conf >= 45) {
+                    bar.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+                } else {
+                    bar.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+                }
+            }, 300);
+        }
+
+        // Chart
+        const labels = JSON.parse('{{ prob_labels | tojson | safe }}');
+        const values = JSON.parse('{{ prob_values | tojson | safe }}');
+        const canvas = document.getElementById('probChart');
+
+        if (canvas && labels.length && values.length) {
+            const ctx = canvas.getContext('2d');
+            const barColors = labels.map(function (_, i) {
+                const hue = 240 + (i * 30);
+                return 'hsla(' + hue + ', 70%, 65%, 0.85)';
+            });
+            const borderColors = labels.map(function (_, i) {
+                const hue = 240 + (i * 30);
+                return 'hsla(' + hue + ', 70%, 65%, 1)';
+            });
+
+            new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Prediction Probability (%)',
+                        data: values,
+                        backgroundColor: barColors,
+                        borderColor: borderColors,
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeOutQuart'
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(30, 41, 59, 0.95)',
+                            titleFont: { family: 'Inter', weight: '600' },
+                            bodyFont: { family: 'Inter' },
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function (context) {
+                                    return context.parsed.y.toFixed(2) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: {
+                                color: '#94a3b8',
+                                font: { family: 'Inter', size: 11 },
+                                callback: function (v) { return v + '%'; }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                color: '#94a3b8',
+                                font: { family: 'Inter', size: 11 },
+                                maxRotation: 30
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

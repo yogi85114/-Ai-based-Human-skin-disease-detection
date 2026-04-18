@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="About — AI Based Early Human Skin Disease Prediction Using Chatbot. Learn how the AI chatbot works, the technology, and the 11 disease classes it covers.">
+    <title>About — AI Based Early Human Skin Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="nav-icon">🔬</span>
+            <span class="nav-title">SkinAI</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/about" class="nav-link active">About</a>
+            <a href="/history" class="nav-link">History</a>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <div class="chat-wrapper about-wrapper">
+
+            <div class="chat-header">
+                <div class="header-icon">ℹ️</div>
+                <div>
+                    <h2>Technology &amp; Data</h2>
+                    <p>Inside the AI Skin Disease Prediction Chatbot</p>
+                </div>
+                <div class="header-status">
+                    <span class="status-dot"></span>
+                    Verified System
+                </div>
+            </div>
+
+            <div class="chat-body">
+
+                <!-- Mission -->
+                <div class="about-section">
+                    <h3>🎯 Our Mission</h3>
+                    <p>This project — <strong>AI Based Early Human Skin Disease Prediction Using Chatbot</strong> — is
+                        an educational tool designed to make preliminary skin disease screening accessible to everyone.
+                        Using advanced deep learning, the chatbot analyzes skin images and provides instant screening
+                        results for <strong>11 skin conditions</strong>.</p>
+                </div>
+
+                <!-- How it works -->
+                <div class="about-section">
+                    <h3>⚙️ How It Works</h3>
+                    <div class="about-steps">
+                        <div class="about-step">
+                            <div class="about-step-icon">📸</div>
+                            <div>
+                                <strong>Image Upload</strong>
+                                <p>You upload a clear photograph of the affected skin area through the secure interface.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="about-step">
+                            <div class="about-step-icon">🧠</div>
+                            <div>
+                                <strong>AI Analysis</strong>
+                                <p>Our EfficientNetB0 neural network processes the image, comparing it against patterns
+                                    learned from thousands of dermatological images.</p>
+                            </div>
+                        </div>
+                        <div class="about-step">
+                            <div class="about-step-icon">📊</div>
+                            <div>
+                                <strong>Results &amp; Info</strong>
+                                <p>You receive a prediction with confidence scores, probability distribution, risk
+                                    assessment, and detailed disease information.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technology -->
+                <div class="about-section">
+                    <h3>🛠️ Technology Stack</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-icon">🧠</span>
+                            <span class="tech-name">TensorFlow</span>
+                            <span class="tech-desc">Deep Learning Framework</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-icon">🏗️</span>
+                            <span class="tech-name">EfficientNetB0</span>
+                            <span class="tech-desc">Pre-trained CNN Model</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-icon">🌐</span>
+                            <span class="tech-name">Flask</span>
+                            <span class="tech-desc">Python Web Framework</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-icon">📈</span>
+                            <span class="tech-name">Chart.js</span>
+                            <span class="tech-desc">Data Visualization</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diseases — 11 ACTUAL DATASET CLASSES -->
+                <div class="about-section">
+                    <h3>🦠 Supported Conditions (11 Classes)</h3>
+                    <p>The AI model is trained on and can screen for the following <strong>11 skin conditions</strong>:
+                    </p>
+                    <div class="condition-tags">
+                        <span class="condition-tag">🔴 Acne</span>
+                        <span class="condition-tag">🔴 Eczema</span>
+                        <span class="condition-tag">🐛 Infestations &amp; Bites</span>
+                        <span class="condition-tag">🦋 Lupus</span>
+                        <span class="condition-tag">⚠️ Melanoma</span>
+                        <span class="condition-tag">🟠 Psoriasis</span>
+                        <span class="condition-tag">🔴 Rosacea</span>
+                        <span class="condition-tag">🍄 Tinea (Ringworm)</span>
+                        <span class="condition-tag">✅ Unknown / Normal</span>
+                        <span class="condition-tag">⚪ Vitiligo</span>
+                        <span class="condition-tag">🟡 Warts &amp; Molluscum</span>
+                    </div>
+                </div>
+
+                <!-- Accuracy -->
+                <div class="about-section">
+                    <h3>📊 Model Accuracy</h3>
+                    <p>The model uses <strong>transfer learning</strong> with EfficientNetB0 pre-trained on ImageNet,
+                        fine-tuned on a curated dermatological dataset of <strong>11 skin conditions</strong>. The
+                        two-phase training approach — head training followed by fine-tuning — targets
+                        <strong>70–80% validation accuracy</strong> across all disease classes.
+                    </p>
+                    <p class="about-note">Accuracy varies by condition and image quality. The model performs best with
+                        well-lit, focused images of the affected area.</p>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="warning">
+                    ⚠️ <strong>Important Medical Disclaimer:</strong> This AI-based chatbot is an educational tool and
+                    does <strong>NOT</strong> provide medical diagnoses. Results should not be used as a substitute for
+                    professional medical evaluation. Always consult a certified dermatologist or healthcare provider for
+                    accurate diagnosis and treatment. If you notice any concerning skin changes, seek professional
+                    medical attention promptly.
+                </div>
+
+                <a href="/" class="btn">🏠 Back to Home</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 AI Based Early Human Skin Disease Prediction Using Chatbot</p>
+        <p class="footer-sub">Built with TensorFlow &bull; EfficientNetB0 &bull; Flask</p>
+    </footer>
+
+</body>
+
+</html>

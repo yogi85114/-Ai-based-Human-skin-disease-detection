@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AI Based Early Human Skin Disease Prediction Using Chatbot — Upload a skin image for instant AI screening of 11 skin conditions including Eczema, Melanoma, Psoriasis, Acne, Lupus and more.">
+    <title>AI Based Early Human Skin Disease Prediction Using Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Analyzing your image…</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="nav-icon">🔬</span>
+            <span class="nav-title">SkinAI</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link active">Home</a>
+            <a href="/about" class="nav-link">About</a>
+            <a href="/history" class="nav-link">History</a>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-badge">✨ AI-Powered Early Detection</div>
+            <h1 class="hero-title">AI Based Early Human<br><span class="gradient-text">Skin Disease Prediction</span>
+            </h1>
+            <p class="hero-subtitle">An intelligent chatbot that analyzes your skin photo and predicts possible
+                conditions
+                using deep learning — covering 11 diseases including Melanoma, Lupus, Eczema, Psoriasis, and more.</p>
+        </section>
+
+        <!-- Main Chat Card -->
+        <div class="chat-wrapper">
+
+            <div class="chat-header">
+                <div class="header-icon">🔬</div>
+                <div>
+                    <h2>Clinical AI Screening</h2>
+                    <p>Precise analysis via EfficientNet-B0 Backbone</p>
+                </div>
+                <div class="header-status">
+                    <span class="status-dot"></span>
+                    AI Online
+                </div>
+            </div>
+
+            <div class="chat-body">
+
+                <div class="bot-msg">
+                    👩‍⚕️ <strong>Welcome!</strong> I'm your AI Dermatology Assistant.
+                    Upload a clear photo of the skin area and answer a few quick questions below. I'll analyze it and
+                    provide a screening result with detailed disease information.
+                </div>
+
+                <form action="/predict" method="POST" enctype="multipart/form-data" id="predictForm">
+
+                    <div class="form-group">
+                        <label for="fileInput">📷 Upload Skin Image</label>
+                        <input type="file" name="file" id="fileInput" accept="*/*" required>
+                        <div class="image-preview-wrapper" id="previewWrapper">
+                            <img src="" alt="Preview" class="image-preview" id="imagePreview">
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">🩹 Symptom Questions</div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="bleeding">Is there bleeding?</label>
+                            <select name="bleeding" id="bleeding">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="growth">Has the size increased?</label>
+                            <select name="growth" id="growth">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="itching">Itching or pain?</label>
+                            <select name="itching" id="itching">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration">How long present?</label>
+                            <select name="duration" id="duration">
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months+</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit">🔍 Analyze Image</button>
+
+                </form>
+
+                <div class="disclaimer">
+                    ⚕️ This tool is for <strong>educational screening only</strong> and is not a substitute for
+                    professional medical advice. Always consult a certified dermatologist.
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Disease Gallery Section -->
+        <section class="disease-gallery-section">
+            <h2 class="section-title">🦠 Diseases We Detect</h2>
+            <p class="section-subtitle">Our AI model can screen for the following 11 skin conditions</p>
+
+            <div class="disease-grid">
+                {% for name, info in diseases.items() %}
+                <div class="disease-card" data-index="{{ loop.index0 }}">
+                    <div class="disease-card-emoji">{{ info.emoji }}</div>
+                    <h3 class="disease-card-name">{{ name }}</h3>
+                    <p class="disease-card-severity">{{ info.severity }}</p>
+                    <p class="disease-card-desc">{{ info.description[:120] }}…</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works">
+            <h2 class="section-title">⚡ How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Upload Photo</h3>
+                    <p>Take or upload a clear photo of the affected skin area</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Answer Questions</h3>
+                    <p>Provide quick symptom details to improve accuracy</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Get Results</h3>
+                    <p>Receive AI screening with confidence scores and disease info</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 AI Based Early Human Skin Disease Prediction Using Chatbot</p>
+        <p class="footer-sub">Built with TensorFlow &bull; EfficientNetB0 &bull; Flask</p>
+    </footer>
+
+    <script>
+        // Image preview
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('imagePreview');
+        const wrapper = document.getElementById('previewWrapper');
+
+        fileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    wrapper.classList.add('active');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                wrapper.classList.remove('active');
+            }
+        });
+
+        // Loading overlay on submit
+        document.getElementById('predictForm').addEventListener('submit', function () {
+            document.getElementById('loadingOverlay').classList.add('active');
+        });
+
+        // Animate disease cards on scroll
+        const allCards = document.querySelectorAll('.disease-card, .step-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const idx = entry.target.dataset.index || 0;
+                    entry.target.style.animationDelay = `${idx * 0.08}s`;
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.05 });
+
+        allCards.forEach(card => {
+            observer.observe(card);
+        });
+
+        // Safety fallback: ensure ALL cards become visible after 2 seconds
+        setTimeout(() => {
+            allCards.forEach(card => {
+                if (!card.classList.contains('animate-in')) {
+                    card.classList.add('animate-in');
+                }
+            });
+        }, 2000);
+    </script>
+
+</body>
+
+</html>

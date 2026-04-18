@@ -1,0 +1,21 @@
+{
+  "validation_accuracy": 0.0,
+  "validation_accuracy_percent": 0,
+  "validation_loss": 0.0,
+  "target_accuracy_range": "70-80%",
+  "classes": [
+    "Acne",
+    "Eczema",
+    "Infestations_Bites",
+    "Lupus",
+    "Melanoma",
+    "Psoriasis",
+    "Rosacea",
+    "Tinea",
+    "Unknown_Normal",
+    "Vitiligo",
+    "Warts Molluscum"
+  ],
+  "num_classes": 11,
+  "note": "Run python train_model.py to train and update this file with actual accuracy."
+}
